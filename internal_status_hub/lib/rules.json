@@ -9,7 +9,7 @@
                 "url": "https://msawatzky-lnx-1.int.pason.com/ops/index",
                 "method": "GET",
                 "failure-threshold": 3,
-                "interval": 10000,
+                "interval": 60000,
                 "evaluation": {
                     "type": "HTTP_CODE",
                     "code": 401
