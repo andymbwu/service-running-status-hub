@@ -6,8 +6,14 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var testErrorRouter = require('./routes/testerror');
+var reportRouter = require('./routes/report');
+
+var poller = require('./lib/poller');
 
 var app = express();
+
+//process.env["NODE_TLS_REJECT_UNAUTHORIZED"] = 0;
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,6 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/', testErrorRouter);
+app.use('/', reportRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -37,5 +45,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+poller.startPolling();
 
 module.exports = app;
