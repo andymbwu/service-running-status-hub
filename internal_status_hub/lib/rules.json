@@ -6,6 +6,7 @@
                 "display-name": "Webservers",
                 "type": "POLLING",
                 "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe8",
+                "environment": "QA",
                 "url": "https://msawatzky-lnx-1.int.pason.com/ops/index",
                 "method": "GET",
                 "failure-threshold": 3,
@@ -19,6 +20,7 @@
                 "display-name": "Test Cron",
                 "type": "REPORTING",
                 "id": "0dab5cd7-943e-4e61-9c9d-dbeea3f120f7",
+                "environment": "QA",
                 "failure-threshold": 3,
                 "interval": 600000,
                 "evaluation": {
