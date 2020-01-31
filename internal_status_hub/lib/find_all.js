@@ -7,7 +7,7 @@ function find_all() {
 
         if (err) throw err;
     
-        const db = client.db("testdb");
+        const db = client.db("pason_statushub_db");
     
         db.collection('logs').find({}).toArray().then((docs) => {
     
