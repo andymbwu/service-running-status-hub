@@ -20,7 +20,11 @@ window.statusHub = window.statusHub || {};
             style: 'long'
         });
 
-        self.refresh();
+        self.initialState = self.getSerialization();
+        self.refresh(() => {
+            self.applySerialization(self.initialState);
+        });
+
         self.updateRefreshTime();
         setInterval(self.refresh, 60000); // refresh every 60s
         setInterval(self.updateRefreshTime, 1000);
@@ -37,7 +41,7 @@ window.statusHub = window.statusHub || {};
         });
     };
 
-    self.refresh = function() {
+    self.refresh = function(cb) {
         self.getData(data => {
             self.lastRefresh = new Date();
             let serialization = self.serialize();
@@ -69,12 +73,14 @@ window.statusHub = window.statusHub || {};
                         $category.find('.child-statuses').removeClass('hidden');
                         $category.find('.category-chart').addClass('hidden');
                         $category.attr('data-expanded', '1');
+                        self.serialize();
                     });
                     $category.find('.collapse-category').click(function(e) {
                         jQuery(this).addClass('hidden').parent().find('.expand-category').removeClass('hidden');
                         $category.find('.child-statuses').addClass('hidden');
                         $category.find('.category-chart').removeClass('hidden');
                         $category.attr('data-expanded', '0');
+                        self.serialize();
                     });
                 }
 
@@ -229,7 +235,8 @@ window.statusHub = window.statusHub || {};
                 }
                 self.setIconFromHealth(categoryStatus[99], $category.find('.category-icon'))
             }
-            self.applySerialization(serialization);
+            self.applySerialization();
+            if (cb) cb();
         });
     };
 
@@ -294,10 +301,28 @@ window.statusHub = window.statusHub || {};
             serialization.unshift(cat);
         });
 
+        Cookies.set('state', JSON.stringify(serialization), {path: ''});
+
         return serialization;
     };
 
+    self.getSerialization = function() {
+        let serialization = Cookies.get('state');
+        if (serialization) {
+            try {
+                serialization = JSON.parse(serialization);
+            } catch (e) {
+                Cookies.set('state', '', {path: ''})
+                serialization = undefined;
+            }
+        }
+
+        return serialization;
+    };
     self.applySerialization = function(serialization) {
+        if (!serialization) {
+            serialization = self.getSerialization();
+        }
         for (let cat of serialization) {
             let $cat = jQuery(`.status-category[data-category="${cat.category}"]`);
             if ($cat[0]) {
