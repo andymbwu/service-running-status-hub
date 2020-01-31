@@ -11,6 +11,8 @@ window.statusHub = window.statusHub || {};
         self.$statusContainer = jQuery('#status-information');
         self.$refreshTime = jQuery('#refresh-time');
 
+        self.healthCheckTemplate = ejs.compile(document.getElementById('health-check-template').innerText);
+
         self.lastRefresh = new Date();
         self.timeFormatter = new Intl.RelativeTimeFormat('en', {
             numeric: 'always',
@@ -26,7 +28,7 @@ window.statusHub = window.statusHub || {};
     self.getData = function(callback) {
         jQuery.ajax({
             method: 'GET',
-            url: '/rest/service_data',
+            url: 'http://status-qa.dev.pason.com:3000/rest/service_data',
             dataType: 'json',
             success: function(data) {
                 callback(data);
@@ -45,7 +47,96 @@ window.statusHub = window.statusHub || {};
                 return;
             }
 
-            console.log(data);
+            for (let category of Object.keys(data.services)) {
+                let $category = self.$statusContainer.find(`.status-category[data-category="${category}"]`);
+                if (!$category[0]) {
+                    $category = jQuery(self.healthCheckTemplate({
+                        isParent: true,
+                        parent: category,
+                        title: data.categories[category]
+                    }));
+                    self.$statusContainer.append($category);
+
+                    $category.find('.expand-category').click(function(e) {
+                        jQuery(this).addClass('hidden').parent().find('.collapse-category').removeClass('hidden');
+                        $category.find('.child-statuses').removeClass('hidden');
+                        $category.find('.category-chart').addClass('hidden');
+                    });
+                    $category.find('.collapse-category').click(function(e) {
+                        jQuery(this).addClass('hidden').parent().find('.expand-category').removeClass('hidden');
+                        $category.find('.child-statuses').addClass('hidden');
+                        $category.find('.category-chart').removeClass('hidden');
+                    });
+                }
+
+                let categoryStatus = [];
+                for (let i = 0; i < 100; i++) {
+                    categoryStatus.push(null);
+                }
+
+                for (let serviceID of Object.keys(data.services[category])) {
+                    let service = data.services[category][serviceID];
+                    let healthy = 0;
+                    let maxTime = -1;
+                    service.checks.sort((a, b) => a.time < b.time ? -1 : 1);
+                    for (let check of service.checks) {
+                        if (check.healthy) {
+                            healthy++;
+                        }
+                        if (check.time > maxTime) {
+                            maxTime = check.time;
+                        }
+                    }
+                    let uptime = (healthy / service.checks.length * 100).toFixed(2);
+                    while (service.checks.length < 100) {
+                        service.checks.unshift({time: null, healthy: null});
+                    }
+
+                    for (let i = 0; i < 100; i++) {
+                        // null - grey
+                        // 1 - green
+                        // 2 - orange
+                        // 3 - red
+                        if (service.checks[i].healthy !== null) {
+                            if (categoryStatus[i] === null) {
+                                categoryStatus[i] = service.checks[i].healthy ? 1 : 2;
+                            } else if (categoryStatus[i] === 1 && !service.checks[i].healthy) {
+                                categoryStatus[i] = 2;
+                            } else if (categoryStatus[i] === 2 && !service.checks[i].healthy) {
+                                categoryStatus[i] = 3;
+                            }
+                        }
+                    }
+
+
+                    let $service = $category.find(`.service-health[data-service="${serviceID}"]`);
+                    if (!$service[0]) {
+                        // create
+                        $service = jQuery(self.healthCheckTemplate({
+                            isParent: false,
+                            service: service,
+                            maxTime: maxTime
+                        }));
+                        $category.find('.child-statuses').append($service);
+                    } else {
+                        // update
+                    }
+
+                    $service.find('.uptime').text(`Uptime: ${uptime}%`);
+                }
+                // update category colours here
+                let colorClass = {
+                    'null': 'gray',
+                    1: 'green',
+                    2: 'orange',
+                    3: 'red'
+                };
+
+                for (let i = 0; i < 100; i++) {
+                    let rect = $category.find('.category-chart .status-chart div')[i];
+                    jQuery(rect).removeClass().addClass(colorClass[categoryStatus[i]]);
+                }
+            }
         });
     };
 

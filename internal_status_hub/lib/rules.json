@@ -30,5 +30,24 @@
                 }
             }
         ]
+    },
+    "google": {
+        "display-name": "Google",
+        "services": [
+            {
+                "display-name": "Search",
+                "type": "POLLING",
+                "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe9",
+                "environment": "PROD",
+                "url": "https://google.ca",
+                "method": "GET",
+                "failure-threshold": 3,
+                "interval": 600000,
+                "evaluation": {
+                    "type": "HTTP_CODE",
+                    "code": 200
+                }
+            }
+        ]
     }
 }

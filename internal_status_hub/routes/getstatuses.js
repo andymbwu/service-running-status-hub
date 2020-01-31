@@ -23,12 +23,10 @@ router.get('/service_data', function(req, res, next) {
                 rule: rule,
                 checks: []
             };
-            if (services[rule.parent][rule.id].checks.length > 5) {
-                continue;
-            }
             services[rule.parent][rule.id].checks.push({
                 time: new Date(doc.date_time).getTime(),
-                healthy: doc.response
+                healthy: doc.response,
+                message: doc.message || null
             });
         }
 
@@ -37,7 +35,8 @@ router.get('/service_data', function(req, res, next) {
         res.send(JSON.stringify({
             version: seed,
             foo: 'bar',
-            services: services
+            services: services,
+            categories: rules.getCategoryDisplayNames()
         }));
     });
 });
