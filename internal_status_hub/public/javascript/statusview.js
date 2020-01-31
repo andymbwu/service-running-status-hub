@@ -220,6 +220,9 @@ window.statusHub = window.statusHub || {};
                     let $service = $category.find(`.service-health[data-service="${serviceID}"]`);
                     if (!$service[0]) {
                         // create
+                        for (let check of checks) {
+                            check.messages = [...new Set(check.messages)];
+                        }
                         $service = jQuery(self.healthCheckTemplate({
                             isParent: false,
                             service: service,
