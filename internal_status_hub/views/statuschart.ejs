@@ -47,13 +47,13 @@
     <div class="status-chart ui" data-max="<%= maxTime %>">
             <% for (let check of checks) { %>
                 <% if (check.health === 1) { %>
-                    <div class="green" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                    <div class="green" data-tooltip="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
                 <% } else if (check.health === 2) { %>
-                    <div class="orange" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                    <div class="orange" data-tooltip="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
                 <% } else if (check.health >= 3) { %>
-                    <div class="red" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                    <div class="red" data-tooltip="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
                 <% } else { %>
-                    <div class="gray" title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                    <div class="gray" data-tooltip="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
                 <% } %>
             <% } %>
     </div>
