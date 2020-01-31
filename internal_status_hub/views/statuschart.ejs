@@ -4,6 +4,7 @@
   <div class="ui container segment overall-status">
     <div class="ui grid">
       <h3 class="header high ten wide column">
+        <i class="check circle icon" style="color: #33cc33"></i>
         <%= title %>
       </h3>
       <div
@@ -33,10 +34,14 @@
 <% } else { %>
 <div class="service-health" data-service="<%= service.rule.id %>">
   <div class="ui container segment nobackground">
-    <div class="ui main container">
-      <h3 class="header">
+    <div class="ui grid">
+      <h3 class="header ten wide column">
         <%= service.rule['display-name'] %>
       </h3>
+      <i
+        class="check circle icon two wide column right floated right aligned"
+        style="color: #33cc33"
+      ></i>
     </div>
     <div class="ui container status-chart-container">
       <div class="status-chart ui" data-max="<%= maxTime %>">
