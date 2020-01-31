@@ -12,7 +12,7 @@ function writeStatus(rule, healthy) {
         var dbo = db.db("pason_statushub_db");
         var myobj = {
                     "type":rule.type, 
-                    "service_id":rule.service_id,
+                    "service_id":rule.id,
                     "response":healthy,
                     "date_time":curr_time,
                     "interval":rule.interval
