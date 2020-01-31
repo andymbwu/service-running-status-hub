@@ -1,3 +1,11 @@
+#refresh-container {
+    text-align: right;
+}
+#refresh-time {
+    min-width: 8em;
+    display: inline-block;
+    text-align: left;
+}
 .orange {
   background-color: #ff6600;
 }
@@ -22,4 +30,47 @@
   grid-template-rows: 25px;
   grid-template-columns: repeat(100, 1fr);
   grid-gap: 0.1em;
+}
+.status-chart-container {
+    padding-bottom: 1rem;
+}
+.expand-category,
+.collapse-category {
+    display: inline-block;
+    cursor: pointer;
+}
+.high {
+    z-index: 1000;
+}
+.hidden {
+    display: none !important;
+}
+.service-health .container:first-child {
+    border: none;
+    box-shadow: none;
+}
+.child-statuses {
+    padding: 0 !important;
+    margin-top: 10px !important;
+}
+.child-statuses .ui.container.segment.grid.nobackground {
+    background-color: transparent;
+}
+.uptime-container {
+    width: 100%;
+    position: relative;
+    height: 1em;
+}
+.uptime-container hr {
+    position: absolute;
+    left: 10rem;
+    right: 10rem;
+}
+.uptime {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: white;
+    z-index: 10;
+    padding: 0 3em;
 }
