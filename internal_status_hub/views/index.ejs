@@ -15,6 +15,7 @@
     <title>Homepage - Semantic</title>
 
     <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/statuschart.css" />
     <link
       rel="stylesheet"
       type="text/css"
@@ -88,8 +89,10 @@
 
         <div class="ui text container">
           <h1 class="ui inverted header">
-            Pason Status Hub
+            <%= title %>
           </h1>
         </div>
+        
       </div>
+      <%- include('statuschart'); %>
 </html>

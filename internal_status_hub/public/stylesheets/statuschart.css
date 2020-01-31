@@ -1,0 +1,25 @@
+.orange {
+  background-color: #ff6600;
+}
+.green {
+  background-color: #33cc33;
+}
+
+.red {
+  background-color: #cc2900;
+}
+
+.gray {
+  background-color: #919191;
+}
+
+.pad-top {
+  padding-top: 1.5em;
+}
+
+.status-chart {
+  display: grid;
+  grid-template-rows: 25px;
+  grid-template-columns: repeat(100, 1fr);
+  grid-gap: 0.1em;
+}
