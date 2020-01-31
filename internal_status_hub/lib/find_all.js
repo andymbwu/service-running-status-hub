@@ -10,15 +10,14 @@ function find_all(callback) {
         const db = client.db("pason_statushub_db");
     
         db.collection('logs').find({}).toArray().then((docs) => {
+            client.close();
     
             callback(null, docs);
     
         }).catch((err) => {
+            client.close();
     
             callback(err);
-        }).finally(() => {
-    
-            client.close();
         });
     });
 }

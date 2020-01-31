@@ -1,6 +1,6 @@
 var MongoClient = require('mongodb').MongoClient;
 //27017 is the port that MongoDB listens to by default
-var url = "mongodb://localhost:27017/";
+var url = "mongodb://status-qa.dev.pason.com:27017/";
 
 function writeStatus(rule, healthy) {
     // TODO
