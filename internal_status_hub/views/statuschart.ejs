@@ -1,16 +1,25 @@
 <% for (service of services) { %>
 <div class="ui list">
   <div>
-    <div class="inline ">
-      <h4 class="header">
-        <%= service.displayname %>
-      </h4>
+    <div class="ui grid">
+      <div class="left floated left aligned eight wide column">
+        <h4 class="header left aligned content">
+          <%= service.displayname %>
+        </h4>
+      </div>
+      <div class="right floated right aligned eight wide column">
+        <i class="gray">a few seconds ago</i>
+      </div>
     </div>
 
     <div class="ui container">
       <div class="status-chart">
         <% for (var i = 0; i < 100; i++) { %>
-        <div class="green"></div>
+        <div
+          class="green"
+          data-tooltip="Success"
+          data-position="bottom center"
+        ></div>
         <% } %>
       </div>
     </div>

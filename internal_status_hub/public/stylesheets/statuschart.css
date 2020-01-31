@@ -9,8 +9,12 @@
   background-color: #cc2900;
 }
 
-.gray {
+.gray-bg {
   background-color: #919191;
+}
+
+.gray {
+  color: #919191;
 }
 
 .pad-y {
@@ -26,9 +30,21 @@
   padding: 1.5em;
 }
 
+.group {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
 .inline {
   display: flex;
-  justify-content: start;
+  justify-content: space-evenly;
+}
+
+.last-updated {
+  float: right;
+}
+
+.groups {
 }
 
 .status-chart {

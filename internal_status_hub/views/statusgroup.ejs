@@ -1,15 +1,13 @@
-<div class="ui list">
+<div class="groups ui list">
   <% for (const [category, value] of Object.entries(rules)) { %>
-  <div class="ui container segment grid status">
-    <div class="ui list">
-      <div>
-        <h3>
-          <i class="check circle icon" style="color: #33cc33"></i
-          ><%=value.displayname%>
-        </h3>
-      </div>
-      <%- include('statuschart', {services: value.services} )%>
+  <div class="group ui container segment status">
+    <div>
+      <h3>
+        <i class="check circle icon" style="color: #33cc33"></i
+        ><%=value.displayname%>
+      </h3>
     </div>
+    <%- include('statuschart', {services: value.services} )%>
   </div>
   <% } %>
 </div>
