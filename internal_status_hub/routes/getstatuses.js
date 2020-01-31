@@ -32,6 +32,7 @@ router.get('/service_data', function(req, res, next) {
         }
 
         res.set('content-type', 'application/json');
+        res.set('access-control-allow-origin', '*');
         res.send(JSON.stringify({
             version: seed,
             foo: 'bar',
