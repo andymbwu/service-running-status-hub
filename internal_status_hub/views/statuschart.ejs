@@ -4,9 +4,11 @@
   <div class="ui container segment overall-status">
     <div class="ui main container">
       <h3 class="header high">
-        <div class="expand-category" data-category="<%= parent %>">&oplus;</div>
+        <div class="expand-category" data-category="<%= parent %>">
+          <i class="plus icon"></i>
+        </div>
         <div class="collapse-category hidden" data-category="<%= parent %>">
-          &otimes;
+          <i class="minus icon"></i>
         </div>
         <%= title %>
       </h3>
@@ -31,7 +33,7 @@
       </h3>
     </div>
     <div class="ui container status-chart-container">
-      <div class="status-chart" data-max="<%= maxTime %>">
+      <div class="status-chart ui" data-max="<%= maxTime %>">
         <% for (let check of service.checks) { %> <% if (check.healthy === true)
         { %>
         <div
