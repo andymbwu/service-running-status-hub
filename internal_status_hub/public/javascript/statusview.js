@@ -30,14 +30,20 @@ window.statusHub = window.statusHub || {};
         setInterval(self.updateRefreshTime, 1000);
 
         var myElement = document.getElementById("status-information");
-        Sortable.create(myElement);
+        Sortable.create(myElement, {onSort:self.onSort});
+
 
     };
+
+    // Called by any change to the list (add / update / remove)
+	self.onSort = function () {
+		self.serialize();
+	}
 
     self.getData = function(callback) {
         jQuery.ajax({
             method: 'GET',
-            url: 'http://status-qa.dev.pason.com:3000/rest/service_data',
+            url: 'rest/service_data',
             dataType: 'json',
             success: function(data) {
                 callback(data);

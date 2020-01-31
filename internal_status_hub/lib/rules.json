@@ -49,5 +49,81 @@
                 }
             }
         ]
+    },
+    "facebook": {
+        "display-name": "Facebook",
+        "services": [
+            {
+                "display-name": "Homepage",
+                "type": "POLLING",
+                "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe10",
+                "environment": "PROD",
+                "url": "https://facebook.com",
+                "method": "GET",
+                "failure-threshold": 3,
+                "interval": 600,
+                "evaluation": {
+                    "type": "HTTP_CODE",
+                    "code": 200
+                }
+            }
+        ]
+    },
+    "youtube": {
+        "display-name": "Youtube",
+        "services": [
+            {
+                "display-name": "Homepage",
+                "type": "POLLING",
+                "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe11",
+                "environment": "PROD",
+                "url": "https://youtube.com",
+                "method": "GET",
+                "failure-threshold": 3,
+                "interval": 600,
+                "evaluation": {
+                    "type": "HTTP_CODE",
+                    "code": 200
+                }
+            }
+        ]
+    },
+    "svn": {
+        "display-name": "SVN-Pason",
+        "services": [
+            {
+                "display-name": "Server",
+                "type": "POLLING",
+                "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe12",
+                "environment": "PROD",
+                "url": "https://svn2.int.pason.com/",
+                "method": "GET",
+                "failure-threshold": 3,
+                "interval": 600,
+                "evaluation": {
+                    "type": "HTTP_CODE",
+                    "code": 200
+                }
+            }
+        ]
+    },
+    "test-fail": {
+        "display-name": "Bad-Server",
+        "services": [
+            {
+                "display-name": "Bad Server",
+                "type": "POLLING",
+                "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe13",
+                "environment": "PROD",
+                "url": "https://badbadserver.com/",
+                "method": "GET",
+                "failure-threshold": 3,
+                "interval": 600,
+                "evaluation": {
+                    "type": "HTTP_CODE",
+                    "code": 200
+                }
+            }
+        ]
     }
 }
