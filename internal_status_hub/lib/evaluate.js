@@ -6,7 +6,7 @@ module.exports = function(evaluationParameters, data, response) {
             if (typeof data === 'string') {
                 try {
                     data = JSON.parse(data);
-                } catch {
+                } catch (e) {
                     return false;
                 }
             }
@@ -15,7 +15,7 @@ module.exports = function(evaluationParameters, data, response) {
                 for (let key of evaluationParameters.key.split('.')) {
                     data = data[key];
                 }
-            } catch {
+            } catch (e) {
                 // key not found
                 return false;
             }
