@@ -301,18 +301,18 @@ window.statusHub = window.statusHub || {};
             serialization.unshift(cat);
         });
 
-        Cookies.set('state', JSON.stringify(serialization), {path: ''});
+        Cookies.set(`state-${self.environment}`, JSON.stringify(serialization), {path: ''});
 
         return serialization;
     };
 
     self.getSerialization = function() {
-        let serialization = Cookies.get('state');
+        let serialization = Cookies.get(`state-${self.environment}`);
         if (serialization) {
             try {
                 serialization = JSON.parse(serialization);
             } catch (e) {
-                Cookies.set('state', '', {path: ''})
+                Cookies.set(`state-${self.environment}`, '', {path: ''})
                 serialization = undefined;
             }
         }
