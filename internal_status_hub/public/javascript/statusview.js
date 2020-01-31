@@ -39,6 +39,7 @@ window.statusHub = window.statusHub || {};
     self.refresh = function() {
         self.getData(data => {
             self.lastRefresh = new Date();
+            self.$statusContainer.find('.status-category').remove();
             let windowStart = Date.now() - (1000 * 60 * 60 * 100);
             let step = 1000 * 60 * 60;
 
