@@ -22,13 +22,11 @@ router.get('/service_data', function(req, res, next) {
                 rule: rule,
                 checks: []
             };
-            if (services[rule.parent][rule.id].checks.length <= 99) {
-                services[rule.parent][rule.id].checks.push({
-                    time: new Date(doc.date_time).getTime(),
-                    healthy: doc.response,
-                    message: doc.message || null
-                });
-            }
+            services[rule.parent][rule.id].checks.push({
+                time: new Date(doc.date_time).getTime(),
+                healthy: doc.response,
+                message: doc.message || null
+            });
         }
 
         res.set('content-type', 'application/json');

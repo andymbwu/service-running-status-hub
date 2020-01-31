@@ -9,7 +9,9 @@ function find_all(callback) {
     
         const db = client.db("pason_statushub_db");
     
-        db.collection('logs').find({}).sort({date_time: -1}).toArray().then((docs) => {
+    	let HoursAgo = new Date(Date.now() - (1000 * 60 * 60 * 100));
+        db.collection('logs').find({date_time: {$gte: HoursAgo}}).sort({date_time: -1}).toArray().then((docs) => {
+            console.log(docs[0])
             client.close();
     
             callback(null, docs);
