@@ -88,3 +88,6 @@
     z-index: 10;
     padding: 0 3em;
 }
+.category-age, .service-age {
+    font-size: 0.7em;
+}

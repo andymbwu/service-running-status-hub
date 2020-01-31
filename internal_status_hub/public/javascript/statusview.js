@@ -63,6 +63,7 @@ window.statusHub = window.statusHub || {};
 
             for (let category of Object.keys(data.services)) {
                 let categoryServices = 0;
+                let categoryMax = -1;
                 let $category = self.$statusContainer.find(`.status-category[data-category="${category}"]`);
                 if (!$category[0]) {
                     $category = jQuery(self.healthCheckTemplate({
@@ -76,6 +77,7 @@ window.statusHub = window.statusHub || {};
                         jQuery(this).addClass('hidden').parent().find('.collapse-category').removeClass('hidden');
                         $category.find('.child-statuses').removeClass('hidden');
                         $category.find('.category-chart').addClass('hidden');
+                        $category.find('.category-age').addClass('hidden');
                         $category.attr('data-expanded', '1');
                         self.serialize();
                     });
@@ -84,6 +86,7 @@ window.statusHub = window.statusHub || {};
                         $category.find('.child-statuses').addClass('hidden');
                         $category.find('.category-chart').removeClass('hidden');
                         $category.attr('data-expanded', '0');
+                        $category.find('.category-age').removeClass('hidden');
                         self.serialize();
                     });
                 }
@@ -119,6 +122,9 @@ window.statusHub = window.statusHub || {};
                                 if (dataPoint.time > maxTime) {
                                     maxTime = dataPoint.time;
                                 }
+                                if (dataPoint.time > categoryMax) {
+                                    categoryMax = dataPoint.time;
+                                }
                                 if (dataPoint.healthy === true && health === 0) {
                                     health = 1;
                                 } else if (dataPoint.healthy === false && health === 0) {
@@ -146,6 +152,9 @@ window.statusHub = window.statusHub || {};
                                 }
                                 if (dataPoint.time > maxTime) {
                                     maxTime = dataPoint.time;
+                                }
+                                if (dataPoint.time > categoryMax) {
+                                    categoryMax = dataPoint.time;
                                 }
                                 if (lastCheck === -1) {
                                     lastCheck = dataPoint.time;
@@ -237,6 +246,7 @@ window.statusHub = window.statusHub || {};
                         colorClass[categoryStatus[i]] || (categoryStatus[i] > 3 ? 'red' : 'gray')
                     );
                 }
+                $category.find('.category-age').text('as of ' + new Date(categoryMax).toLocaleString());
                 self.setIconFromHealth(categoryStatus[99], $category.find('.category-icon'))
             }
             self.applySerialization();
