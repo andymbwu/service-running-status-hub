@@ -35,7 +35,8 @@ router.get('/service_data', function(req, res, next) {
         res.send(JSON.stringify({
             version: seed,
             foo: 'bar',
-            services: services
+            services: services,
+            categories: rules.getCategoryDisplayNames()
         }));
     });
 });

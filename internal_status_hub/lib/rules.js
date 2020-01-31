@@ -51,9 +51,18 @@ function getRule(type, response) {
     return rule;
 };
 
+function getCategoryDisplayNames() {
+    let displayMapping = {};
+    for (let parent of Object.keys(RULES)) {
+        displayMapping[parent] = RULES[parent]['display-name'];
+    }
+    return displayMapping;
+}
+
 
 module.exports = {
     getRule: getRule,
     getAllPollingRules: getAllPollingRules,
-    getRuleByID: getReportingRuleByID
+    getRuleByID: getReportingRuleByID,
+    getCategoryDisplayNames: getCategoryDisplayNames
 };
