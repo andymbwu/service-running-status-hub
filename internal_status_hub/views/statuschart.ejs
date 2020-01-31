@@ -4,7 +4,7 @@
   <div class="ui container segment overall-status">
     <div class="ui grid">
       <h3 class="header high ten wide column">
-        <i class="check circle icon" style="color: #33cc33"></i>
+        <i class="question circle icon category-icon" icon-color="gray"></i>
         <%= title %>
       </h3>
       <div
@@ -23,7 +23,7 @@
     <div class="ui container status-chart-container category-chart">
       <div class="status-chart">
         <% for (var i = 0; i < 100; i++) { %>
-        <div class="green"></div>
+        <div class="gray"></div>
         <% } %>
       </div>
     </div>
@@ -39,8 +39,8 @@
                 <%= service.rule['display-name'] %>
             </h3>
             <i
-                class="check circle icon two wide column right floated right aligned"
-                style="color: #33cc33"
+                class="question circle icon two wide column right floated right aligned service-icon"
+                icon-color="grey"
             ></i>
         </div>
     </div>

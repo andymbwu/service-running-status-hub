@@ -20,6 +20,20 @@
 .gray {
   background-color: #919191;
 }
+[icon-color=orange] {
+  color: #ff6600;
+}
+[icon-color=green] {
+  color: #33cc33;
+}
+
+[icon-color=red] {
+  color: #cc2900;
+}
+
+[icon-color=gray] {
+  color: #919191;
+}
 
 .pad-top {
   padding-top: 1.5em;

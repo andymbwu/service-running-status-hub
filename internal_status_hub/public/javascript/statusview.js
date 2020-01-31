@@ -190,6 +190,7 @@ window.statusHub = window.statusHub || {};
                             checks: checks,
                             maxTime: maxTime
                         }));
+                        self.setIconFromHealth(checks[99].health, $service.find('.service-icon'))
                         $category.find('.child-statuses').append($service);
                     } else {
                         // update
@@ -211,6 +212,7 @@ window.statusHub = window.statusHub || {};
                         colorClass[categoryStatus[i]] || (categoryStatus[i] > 3 ? 'red' : 'gray')
                     );
                 }
+                self.setIconFromHealth(categoryStatus[99], $category.find('.category-icon'))
             }
         });
     };
@@ -242,6 +244,24 @@ window.statusHub = window.statusHub || {};
 
         let timestring = self.timeFormatter.format(Math.floor(elapsed) * -1, unit);
         self.$refreshTime.text(timestring);
+    };
+
+    self.setIconFromHealth = function(health, $icon) {
+        $icon.removeClass('question').removeClass('check').removeClass('x');
+        switch(health) {
+            case 0:
+                $icon.addClass('question').attr('icon-color', 'gray');
+                break;
+            case 1:
+                $icon.addClass('check').attr('icon-color', 'green');
+                break;
+            case 2:
+                $icon.addClass('x').attr('icon-color', 'orange');
+                break;
+            default:
+                $icon.addClass('x').attr('icon-color', 'red');
+                break;
+        }
     };
 }).apply(window.statusHub);
 
