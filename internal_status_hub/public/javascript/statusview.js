@@ -78,6 +78,7 @@ window.statusHub = window.statusHub || {};
                     let service = data.services[category][serviceID];
                     let healthy = 0;
                     let maxTime = -1;
+                    service.checks.sort((a, b) => a.time < b.time ? -1 : 1);
                     for (let check of service.checks) {
                         if (check.healthy) {
                             healthy++;
@@ -107,7 +108,7 @@ window.statusHub = window.statusHub || {};
                         }
                     }
 
-                        
+
                     let $service = $category.find(`.service-health[data-service="${serviceID}"]`);
                     if (!$service[0]) {
                         // create
