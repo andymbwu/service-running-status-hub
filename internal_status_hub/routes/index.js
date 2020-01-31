@@ -11,4 +11,8 @@ router.get("/testpage", function(req, res) {
   res.render("testpage", { title: "Test Page" });
 });
 
+router.get('/status', function(req, res) {
+    res.render('status', {});
+});
+
 module.exports = router;
