@@ -15,6 +15,7 @@ router.get('/service_data', function(req, res, next) {
             let rule = rules.getRuleByID(doc.service_id);
             if (!rule) {
                 // rule no longer here?
+                console.log("Rule doesn't exist in rules.json");
                 continue;
             }
             services[rule.parent] = services[rule.parent] || {};
