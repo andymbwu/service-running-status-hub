@@ -2,7 +2,7 @@ const mongo = require('mongodb');
 const MongoClient = mongo.MongoClient;
 const url = 'mongodb://localhost:27017';
 
-function find_all() {
+function find_all(callback) {
     MongoClient.connect(url, { useNewUrlParser: true }, (err, client) => {
 
         if (err) throw err;
@@ -11,11 +11,11 @@ function find_all() {
     
         db.collection('logs').find({}).toArray().then((docs) => {
     
-            console.log(docs);
+            callback(null, docs);
     
         }).catch((err) => {
     
-            console.log(err);
+            callback(err);
         }).finally(() => {
     
             client.close();
