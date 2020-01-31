@@ -17,6 +17,11 @@
   padding-top: 1.5em;
 }
 
+.status {
+  margin-top: 1.5em;
+  margin-bottom: 1.5em;
+}
+
 .status-chart {
   display: grid;
   grid-template-rows: 25px;
