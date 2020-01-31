@@ -32,11 +32,11 @@
             <div class="status-chart" data-max="<%= maxTime %>">
             <% for (let check of service.checks) { %>
                 <% if (check.healthy === true) { %>
-                    <div class="green" title="<%=new Date(check.time).toLocaleString()%>"></div>
+                    <div class="green" title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"></div>
                 <% } else if (check.healthy === false) { %>
-                    <div class="red" title="<%=new Date(check.time).toLocaleString()%>"></div>
+                    <div class="red" title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"></div>
                 <% } else { %>
-                    <div class="gray" title="<%=check.time ? new Date(check.time).toLocaleString() : '' %>"></div>
+                    <div class="gray" title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.message ? `: ${check.message}` : '' %>"></div>
                 <% } %>
             <% } %>
             </div>
