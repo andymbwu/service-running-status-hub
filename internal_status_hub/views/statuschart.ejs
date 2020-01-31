@@ -8,19 +8,22 @@
         </h4>
       </div>
       <div class="right floated right aligned eight wide column">
-        <i class="gray">a few seconds ago</i>
+        <i class="gray">a few seconds ago</i><i class="cog icon pad-x"></i>
       </div>
     </div>
 
     <div class="ui container">
       <div class="status-chart">
-        <% for (var i = 0; i < 100; i++) { %>
+        <% for (var i = 0; i < 100; i++) { %> <% const x = Math.random(); %> <%
+        if (x < 0.05) { %>
         <div
-          class="green"
-          data-tooltip="Success"
+          class="red-bg"
+          data-tooltip="Failure"
           data-position="bottom center"
         ></div>
-        <% } %>
+        <% } else { %>
+        <div class="green-bg"></div>
+        <% } %> <% } %>
       </div>
     </div>
   </div>

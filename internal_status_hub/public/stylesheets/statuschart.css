@@ -1,11 +1,11 @@
 .orange {
   background-color: #ff6600;
 }
-.green {
+.green-bg {
   background-color: #33cc33;
 }
 
-.red {
+.red-bg {
   background-color: #cc2900;
 }
 
@@ -20,6 +20,10 @@
 .pad-y {
   padding-top: 1em;
   padding-bottom: 1em;
+}
+.pad-x {
+  padding-left: 1em;
+  padding-right: 1em;
 }
 
 .pad-top {
