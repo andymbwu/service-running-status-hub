@@ -33,15 +33,35 @@
 
 <% } else { %>
 <div class="service-health" data-service="<%= service.rule.id %>">
-  <div class="ui container segment nobackground">
-    <div class="ui grid">
-      <h3 class="header ten wide column">
-        <%= service.rule['display-name'] %>
-      </h3>
-      <i
-        class="check circle icon two wide column right floated right aligned"
-        style="color: #33cc33"
-      ></i>
+    <div class="ui container segment nobackground">
+        <div class="ui grid">
+            <h3 class="header ten wide column">
+                <%= service.rule['display-name'] %>
+            </h3>
+            <i
+                class="check circle icon two wide column right floated right aligned"
+                style="color: #33cc33"
+            ></i>
+        </div>
+        <div class="ui container status-chart-container">
+            <div class="status-chart" data-max="<%= maxTime %>">
+            <% for (let check of checks) { %>
+                <% if (check.health === 1) { %>
+                    <div class="green" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                <% } else if (check.health === 2) { %>
+                    <div class="orange" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                <% } else if (check.health >= 3) { %>
+                    <div class="red" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                <% } else { %>
+                    <div class="gray" title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
+                <% } %>
+            <% } %>
+            </div>
+        </div>
+        <div class="uptime-container">
+            <div class="uptime"></div>
+            <hr />
+        </div>
     </div>
     <div class="ui container status-chart-container">
       <div class="status-chart ui" data-max="<%= maxTime %>">

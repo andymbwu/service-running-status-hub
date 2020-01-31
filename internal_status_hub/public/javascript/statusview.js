@@ -39,6 +39,9 @@ window.statusHub = window.statusHub || {};
     self.refresh = function() {
         self.getData(data => {
             self.lastRefresh = new Date();
+            let windowStart = Date.now() - (1000 * 60 * 60 * 100);
+            let step = 1000 * 60 * 60;
+
             if (!self.version) {
                 self.version = data.version;
             } else if (self.version !== data.version) {
@@ -71,41 +74,109 @@ window.statusHub = window.statusHub || {};
 
                 let categoryStatus = [];
                 for (let i = 0; i < 100; i++) {
-                    categoryStatus.push(null);
+                    categoryStatus.push(0);
                 }
 
                 for (let serviceID of Object.keys(data.services[category])) {
                     let service = data.services[category][serviceID];
                     let healthy = 0;
                     let maxTime = -1;
+                    let start = windowStart;
+                    let end = start + step;
                     service.checks.sort((a, b) => a.time < b.time ? -1 : 1);
-                    for (let check of service.checks) {
-                        if (check.healthy) {
-                            healthy++;
+
+                    let checks = [];
+                    if (service.rule.type === 'POLLING') {
+                        for (let i = 0; i < 100; i++) {
+                            let dataPoints = service.checks.filter(check => (check.time >= start && check.time < end));
+                            let health = 0;
+                            let messages = [];
+                            for (let dataPoint of dataPoints) {
+                                if (dataPoint.healthy) {
+                                    healthy++;
+                                }
+                                if (dataPoint.time > maxTime) {
+                                    maxTime = dataPoint.time;
+                                }
+                                if (dataPoint.healthy === true && health === 0) {
+                                    health = 1;
+                                } else if (dataPoint.healthy === false && health === 0) {
+                                    health = 2;
+                                    if (dataPoint.message) messages.push(dataPoint.message);
+                                } else if (dataPoint.healthy === false) {
+                                    health++;
+                                    if (dataPoint.message) messages.push(dataPoint.message);
+                                }
+                            }
+                            checks[i] = {time: start, health: health, messages: messages};
+
+                            start = end;
+                            end += step;
                         }
-                        if (check.time > maxTime) {
-                            maxTime = check.time;
+                    } else if (service.rule.type === 'REPORTING') {
+                        let lastCheck = -1;
+                        for (let i = 0; i < 100; i++) {
+                            let dataPoints = service.checks.filter(check => (check.time >= start && check.time < end));
+                            let health = 0;
+                            let messages = [];
+                            for (let dataPoint of dataPoints) {
+                                if (dataPoint.healthy) {
+                                    healthy++;
+                                }
+                                if (dataPoint.time > maxTime) {
+                                    maxTime = dataPoint.time;
+                                }
+                                if (lastCheck === -1) {
+                                    lastCheck = dataPoint.time;
+                                }
+
+                                if (dataPoint.healthy === true && health === 0) {
+                                    health = 1;
+                                } else if (dataPoint.healthy === false && health === 0) {
+                                    health = 2;
+                                    if (dataPoint.message) messages.push(dataPoint.message);
+                                } else if (dataPoint.healthy === false) {
+                                    health++;
+                                    if (dataPoint.message) messages.push(dataPoint.message);
+                                }
+
+                                if (dataPoint.time - lastCheck > service.rule.interval) {
+                                    // haven't heard in too long - fail
+                                    messages.push('Service did not report within threshold');
+                                    if (health < 2) {
+                                        health = 2;
+                                    } else {
+                                        health++;
+                                    }
+                                }
+                            }
+                            checks[i] = {time: start, health: health, messages: [...new Set(messages)]};
+
+                            start = end;
+                            end += step;
                         }
-                    }
-                    let uptime = (healthy / service.checks.length * 100).toFixed(2);
-                    while (service.checks.length < 100) {
-                        service.checks.unshift({time: null, healthy: null});
                     }
 
-                    for (let i = 0; i < 100; i++) {
-                        // null - grey
+                    // we have 100 datapoints. Extend grey points to the last check we have
+                    for (let i = 0; i < checks.length; i++) {
+                        if (checks[i].health === 0) {
+                            for (let j = i; j >= 0; j--) {
+                                if (checks[j].health !== 0) {
+                                    checks[i] = checks[j];
+                                    checks[i].copied = true;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    let uptime = (healthy / service.checks.length * 100).toFixed(2);
+                    for (let i = 0; i < checks.length; i++) {
+                        // 0 - grey
                         // 1 - green
                         // 2 - orange
                         // 3 - red
-                        if (service.checks[i].healthy !== null) {
-                            if (categoryStatus[i] === null) {
-                                categoryStatus[i] = service.checks[i].healthy ? 1 : 2;
-                            } else if (categoryStatus[i] === 1 && !service.checks[i].healthy) {
-                                categoryStatus[i] = 2;
-                            } else if (categoryStatus[i] === 2 && !service.checks[i].healthy) {
-                                categoryStatus[i] = 3;
-                            }
-                        }
+                        categoryStatus[i] += checks[i].health
                     }
 
 
@@ -115,6 +186,7 @@ window.statusHub = window.statusHub || {};
                         $service = jQuery(self.healthCheckTemplate({
                             isParent: false,
                             service: service,
+                            checks: checks,
                             maxTime: maxTime
                         }));
                         $category.find('.child-statuses').append($service);
@@ -126,7 +198,7 @@ window.statusHub = window.statusHub || {};
                 }
                 // update category colours here
                 let colorClass = {
-                    'null': 'gray',
+                    0: 'gray',
                     1: 'green',
                     2: 'orange',
                     3: 'red'
@@ -134,7 +206,9 @@ window.statusHub = window.statusHub || {};
 
                 for (let i = 0; i < 100; i++) {
                     let rect = $category.find('.category-chart .status-chart div')[i];
-                    jQuery(rect).removeClass().addClass(colorClass[categoryStatus[i]]);
+                    jQuery(rect).removeClass().addClass(
+                        colorClass[categoryStatus[i]] || (categoryStatus[i] > 3 ? 'red' : 'gray')
+                    );
                 }
             }
         });
