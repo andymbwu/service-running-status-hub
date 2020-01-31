@@ -43,8 +43,8 @@
                 style="color: #33cc33"
             ></i>
         </div>
-        <div class="ui container status-chart-container">
-            <div class="status-chart" data-max="<%= maxTime %>">
+    </div>
+    <div class="status-chart ui" data-max="<%= maxTime %>">
             <% for (let check of checks) { %>
                 <% if (check.health === 1) { %>
                     <div class="green" title="<%=new Date(check.time).toLocaleString()%><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
@@ -56,31 +56,6 @@
                     <div class="gray" title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.messages.length ? `: ${check.messages.join(', ')}` : '' %>"></div>
                 <% } %>
             <% } %>
-            </div>
-        </div>
-        <div class="uptime-container">
-            <div class="uptime"></div>
-            <hr />
-        </div>
-    </div>
-    <div class="status-chart ui" data-max="<%= maxTime %>">
-      <% for (let check of service.checks) { %> <% if (check.healthy === true) {
-      %>
-      <div
-        class="green"
-        title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"
-      ></div>
-      <% } else if (check.healthy === false) { %>
-      <div
-        class="red"
-        title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"
-      ></div>
-      <% } else { %>
-      <div
-        class="gray"
-        title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.message ? `: ${check.message}` : '' %>"
-      ></div>
-      <% } %> <% } %>
     </div>
 
     <div class="uptime-container">
