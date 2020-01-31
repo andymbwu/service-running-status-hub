@@ -12,6 +12,7 @@ window.statusHub = window.statusHub || {};
         self.$refreshTime = jQuery('#refresh-time');
 
         self.healthCheckTemplate = ejs.compile(document.getElementById('health-check-template').innerText);
+        self.environment = jQuery('#env-buttons').attr('data-environment').toUpperCase();
 
         self.lastRefresh = new Date();
         self.timeFormatter = new Intl.RelativeTimeFormat('en', {
@@ -52,6 +53,7 @@ window.statusHub = window.statusHub || {};
             }
 
             for (let category of Object.keys(data.services)) {
+                let categoryServices = 0;
                 let $category = self.$statusContainer.find(`.status-category[data-category="${category}"]`);
                 if (!$category[0]) {
                     $category = jQuery(self.healthCheckTemplate({
@@ -80,6 +82,11 @@ window.statusHub = window.statusHub || {};
 
                 for (let serviceID of Object.keys(data.services[category])) {
                     let service = data.services[category][serviceID];
+                    if (service.rule.environment !== self.environment) {
+                        continue;
+                    } else {
+                        categoryServices++;
+                    }
                     let healthy = 0;
                     let maxTime = -1;
                     let start = windowStart;
@@ -141,7 +148,7 @@ window.statusHub = window.statusHub || {};
                                     if (dataPoint.message) messages.push(dataPoint.message);
                                 }
 
-                                if (dataPoint.time - lastCheck > service.rule.interval) {
+                                if (Math.abs((dataPoint.time - lastCheck)) > service.rule.interval) {
                                     // haven't heard in too long - fail
                                     messages.push('Service did not report within threshold');
                                     if (health < 2) {
@@ -197,6 +204,11 @@ window.statusHub = window.statusHub || {};
                     }
 
                     $service.find('.uptime').text(`Uptime: ${uptime}%`);
+                }
+
+                if (categoryServices === 0) {
+                    $category.remove();
+                    continue;
                 }
                 // update category colours here
                 let colorClass = {

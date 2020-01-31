@@ -81,7 +81,7 @@
 
       </div>
     
-      <div class="ui three item stackable tabs menu">
+      <div class="ui three item stackable tabs menu" id="env-buttons" data-environment="<%= environment %>">
         <a id="CI" href="/ci" class="item<% if (environment==="ci") { %> active<% } %>">CI</a>
         <a id="QA" href="/qa" class="item<% if (environment==="qa") { %> active<% } %>">QA</a>
         <a id="Prod" href="/" class="item<% if (environment==="prod") { %> active<% } %>">Prod</a>
