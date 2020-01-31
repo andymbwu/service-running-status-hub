@@ -1,50 +1,60 @@
 <% if (isParent) { %>
 
-<div class="status-category" data-category="<%= parent %>">
-<div class="ui container segment grid overall-status">
-  <div class="ui main container pad-top">
-    <h3 class="header high">
-      <div class="expand-category" data-category="<%= parent %>">&oplus;</div>
-      <div class="collapse-category hidden" data-category="<%= parent %>">&otimes;</div>
-      <%= title %>
-    </h3>
-  </div>
-  <div class="ui container status-chart-container category-chart">
-    <div class="status-chart">
-      <% for (var i = 0; i < 100; i++) { %>
-      <div class="green"></div>
-      <% } %>
+<div class="status-category list" data-category="<%= parent %>">
+  <div class="ui container segment overall-status">
+    <div class="ui main container">
+      <h3 class="header high">
+        <div class="expand-category" data-category="<%= parent %>">&oplus;</div>
+        <div class="collapse-category hidden" data-category="<%= parent %>">
+          &otimes;
+        </div>
+        <%= title %>
+      </h3>
     </div>
+    <div class="ui container status-chart-container category-chart">
+      <div class="status-chart">
+        <% for (var i = 0; i < 100; i++) { %>
+        <div class="green"></div>
+        <% } %>
+      </div>
+    </div>
+    <div class="child-statuses hidden ui list"></div>
   </div>
-  <div class="child-statuses hidden ui grid container"></div>
-</div>
 </div>
 
 <% } else { %>
 <div class="service-health" data-service="<%= service.rule.id %>">
-    <div class="ui container segment grid nobackground">
-        <div class="ui main container pad-top">
-            <h3 class="header">
-                <%= service.rule['display-name'] %>
-            </h3>
-        </div>
-        <div class="ui container status-chart-container">
-            <div class="status-chart" data-max="<%= maxTime %>">
-            <% for (let check of service.checks) { %>
-                <% if (check.healthy === true) { %>
-                    <div class="green" title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"></div>
-                <% } else if (check.healthy === false) { %>
-                    <div class="red" title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"></div>
-                <% } else { %>
-                    <div class="gray" title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.message ? `: ${check.message}` : '' %>"></div>
-                <% } %>
-            <% } %>
-            </div>
-        </div>
-        <div class="uptime-container">
-            <div class="uptime"></div>
-            <hr />
-        </div>
+  <div class="ui container segment nobackground">
+    <div class="ui main container">
+      <h3 class="header">
+        <%= service.rule['display-name'] %>
+      </h3>
     </div>
+    <div class="ui container status-chart-container">
+      <div class="status-chart" data-max="<%= maxTime %>">
+        <% for (let check of service.checks) { %> <% if (check.healthy === true)
+        { %>
+        <div
+          class="green"
+          title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"
+        ></div>
+        <% } else if (check.healthy === false) { %>
+        <div
+          class="red"
+          title="<%=new Date(check.time).toLocaleString()%><%= check.message ? `: ${check.message}` : '' %>"
+        ></div>
+        <% } else { %>
+        <div
+          class="gray"
+          title="<%=check.time ? new Date(check.time).toLocaleString() : '' %><%= check.message ? `: ${check.message}` : '' %>"
+        ></div>
+        <% } %> <% } %>
+      </div>
+    </div>
+    <div class="uptime-container">
+      <div class="uptime"></div>
+      <hr />
+    </div>
+  </div>
 </div>
 <% } %>
