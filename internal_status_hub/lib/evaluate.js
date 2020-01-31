@@ -24,7 +24,7 @@ module.exports = function(evaluationParameters, data, response) {
             }
 
             if (data !== evaluationParameters.value) {
-                throw new Error(`Expected ${evaluationParameters.key} to be ${evaluationParameters.data}, got ${data}`);
+                throw new Error(`Expected ${evaluationParameters.key} to be ${evaluationParameters.value}, got ${data}`);
             }
             break;
         case 'REGEX':
