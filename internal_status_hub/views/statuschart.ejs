@@ -2,16 +2,22 @@
 
 <div class="status-category list" data-category="<%= parent %>">
   <div class="ui container segment overall-status">
-    <div class="ui main container">
-      <h3 class="header high">
-        <div class="expand-category" data-category="<%= parent %>">
-          <i class="plus icon"></i>
-        </div>
-        <div class="collapse-category hidden" data-category="<%= parent %>">
-          <i class="minus icon"></i>
-        </div>
+    <div class="ui grid">
+      <h3 class="header high ten wide column">
         <%= title %>
       </h3>
+      <div
+        class="expand-category two wide column right floated right aligned"
+        data-category="<%= parent %>"
+      >
+        <i class="plus icon"></i>
+      </div>
+      <div
+        class="collapse-category hidden two wide column right floated right aligned"
+        data-category="<%= parent %>"
+      >
+        <i class="minus icon"></i>
+      </div>
     </div>
     <div class="ui container status-chart-container category-chart">
       <div class="status-chart">
