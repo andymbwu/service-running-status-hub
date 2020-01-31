@@ -28,6 +28,10 @@ window.statusHub = window.statusHub || {};
         self.updateRefreshTime();
         setInterval(self.refresh, 60000); // refresh every 60s
         setInterval(self.updateRefreshTime, 1000);
+
+        var myElement = document.getElementById("status-information");
+        Sortable.create(myElement);
+
     };
 
     self.getData = function(callback) {
