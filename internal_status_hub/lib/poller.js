@@ -21,7 +21,7 @@ function startPolling() {
                 } catch (e) {
                     console.error(`[POLLER] [${rule['display-name']}] EXCEPTION`);
                     console.error(e);
-                    db.writeStatus(rule, false);
+                    db.writeStatus(rule, false, e.message);
                 }
             });
         }, rule.interval);

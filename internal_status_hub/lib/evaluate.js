@@ -1,13 +1,16 @@
 module.exports = function(evaluationParameters, data, response) {
     switch(evaluationParameters.type) {
         case 'HTTP_CODE':
-            return response.statusCode === evaluationParameters.code;
+            if (response.statusCode !== evaluationParameters.code) {
+                throw new Error(`Expected HTTP ${evaluationParameters.code}, got ${response.statusCode}`);
+            }
+            break;
         case 'JSON_KEY':
             if (typeof data === 'string') {
                 try {
                     data = JSON.parse(data);
                 } catch (e) {
-                    return false;
+                    throw new Error(`Body was not JSON`);
                 }
             }
 
@@ -17,13 +20,19 @@ module.exports = function(evaluationParameters, data, response) {
                 }
             } catch (e) {
                 // key not found
-                return false;
+                throw new Error(`JSON did not have key: ${evaluationParameters.key}`);
             }
 
-            return data === evaluationParameters.value;
+            if (data !== evaluationParameters.value) {
+                throw new Error(`Expected ${evaluationParameters.key} to be ${evaluationParameters.data}, got ${data}`);
+            }
+            break;
         case 'REGEX':
-            return (new RegExp(evaluationParameters.regex, evaluationParameters.flags)).test(data.toString());
+            if (!(new RegExp(evaluationParameters.regex, evaluationParameters.flags)).test(data.toString())) {
+                throw new Error(`Regular Expression /${evaluationParameters.regex}/${evaluationParameters.flags} did not match`);
+            }
+        break;
+        default:
+            throw new Error(`Unknown evaluation type: ${evaluationParameters.type}`);
     }
-
-    throw new Error(`Unknown evaluation type: ${evaluationParameters.type}`);
 }

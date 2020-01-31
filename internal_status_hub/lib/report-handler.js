@@ -14,9 +14,13 @@ function handle(body) {
     }
 
 
-    let health = evaluate(rule.evaluation, body);
-
-    db.writeStatus(rule, health);
+    try {
+        evaluate(rule.evaluation, body);
+    } catch (e) {
+        db.writeStatus(rule, false, e.message);
+        return;
+    }
+    db.writeStatus(rule, true);
 }
 
 

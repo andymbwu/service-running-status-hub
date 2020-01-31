@@ -25,7 +25,8 @@ router.get('/service_data', function(req, res, next) {
             if (services[rule.parent][rule.id].checks.length <= 99) {
                 services[rule.parent][rule.id].checks.push({
                     time: new Date(doc.date_time).getTime(),
-                    healthy: doc.response
+                    healthy: doc.response,
+                    message: doc.message || null
                 });
             }
         }
