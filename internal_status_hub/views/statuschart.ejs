@@ -1,14 +1,19 @@
-<div class="ui container segment grid status">
-  <div class="ui main container pad-top">
-    <h3 class="header">
-      Recent Health Checks
-    </h3>
-  </div>
-  <div class="ui container">
-    <div class="status-chart">
-      <% for (var i = 0; i < 100; i++) { %>
-      <div class="green"></div>
-      <% } %>
+<% for (service of services) { %>
+<div>
+  <div class="inner">
+    <div class="inline ">
+      <h4 class="header">
+        <%= service.displayname %>
+      </h4>
+    </div>
+
+    <div class="ui container">
+      <div class="status-chart">
+        <% for (var i = 0; i < 100; i++) { %>
+        <div class="green"></div>
+        <% } %>
+      </div>
     </div>
   </div>
 </div>
+<% } %>

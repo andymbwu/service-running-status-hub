@@ -3,7 +3,7 @@
     "displayname": "Operations",
     "services": [
       {
-        "display-name": "Webservers",
+        "displayname": "Webservers",
         "type": "POLLING",
         "id": "3eca99d8-fa3a-4114-9d84-2b3c1d8befe8",
         "environment": "QA",
@@ -17,7 +17,7 @@
         }
       },
       {
-        "display-name": "Test Cron",
+        "displayname": "Test Cron",
         "type": "REPORTING",
         "id": "0dab5cd7-943e-4e61-9c9d-dbeea3f120f7",
         "environment": "QA",
@@ -32,10 +32,10 @@
     ]
   },
   "datahub": {
-    "displayname": "datahub",
+    "displayname": "Datahub",
     "services": [
       {
-        "display-name": "Well Service",
+        "displayname": "Well Service",
         "type": "POLLING",
         "id": "eeee1a65-f623-469a-9f50-22c6825440ee",
         "environment": "QA",

@@ -17,6 +17,15 @@
   padding-top: 1.5em;
 }
 
+.inner {
+  padding: 1.5em;
+}
+
+.inline {
+  display: flex;
+  justify-content: start;
+}
+
 .status {
   margin-top: 1.5em;
   margin-bottom: 1.5em;
@@ -26,5 +35,5 @@
   display: grid;
   grid-template-rows: 25px;
   grid-template-columns: repeat(100, 1fr);
-  grid-gap: 0.1em;
+  grid-gap: 0.15em;
 }

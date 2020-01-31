@@ -95,21 +95,6 @@
         
       </div>
       
-      <div class="ui container segment grid status">
-        
-        <div>
-          <% console.log(rules) %> <% const keys = Object.keys(rules) %>
-            
-            <div><%= keys %></div>
-            <% %>
-        </div>
-        
-
-
-        <div class="ui container header">
-          <h2>Ops</h2>
-        </div>
-      </div>
-      
-      <!-- <%- include('statuschart'); %> -->
+          
+      <%- include('statusgroup', {rules: rules} ); %>
 </html>

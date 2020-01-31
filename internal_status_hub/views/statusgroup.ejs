@@ -1,0 +1,10 @@
+<% for (const [category, value] of Object.entries(rules)) { %>
+<div class="ui container segment grid status">
+  <div>
+    <i class="check circle icon" style="color: #33cc33"></i>
+    <h3><%=value.displayname%></h3>
+  </div>
+  <%- include('statuschart', {services: value.services} )%>
+</div>
+
+<% } %>
