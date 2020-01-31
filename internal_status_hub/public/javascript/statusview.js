@@ -52,7 +52,8 @@ window.statusHub = window.statusHub || {};
                 if (!$category[0]) {
                     $category = jQuery(self.healthCheckTemplate({
                         isParent: true,
-                        parent: category
+                        parent: category,
+                        title: data.categories[category]
                     }));
                     self.$statusContainer.append($category);
 
