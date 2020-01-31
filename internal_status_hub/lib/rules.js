@@ -19,7 +19,7 @@ function getPollingRuleByURL(url) {
 function getReportingRuleByID(id) {
     for (let parent of Object.keys(RULES)) {
         for (let rule of RULES[parent].services) {
-            if (rule.type === 'REPORTING' && rule.id === id) {
+            if (rule.id === id) {
                 return rule;
             }
         }
@@ -54,5 +54,6 @@ function getRule(type, response) {
 
 module.exports = {
     getRule: getRule,
-    getAllPollingRules: getAllPollingRules
+    getAllPollingRules: getAllPollingRules,
+    getRuleByID: getReportingRuleByID
 };

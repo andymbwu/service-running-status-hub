@@ -9,7 +9,7 @@ function find_all(callback) {
     
         const db = client.db("pason_statushub_db");
     
-        db.collection('logs').find({}).toArray().then((docs) => {
+        db.collection('logs').find({}).sort({date_time: -1}).toArray().then((docs) => {
             client.close();
     
             callback(null, docs);
