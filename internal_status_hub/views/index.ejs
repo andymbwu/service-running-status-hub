@@ -81,6 +81,11 @@
 
       </div>
     
+      <div class="ui three item stackable tabs menu">
+        <a id="CI" href="/ci" class="item<% if (environment==="ci") { %> active<% } %>">CI</a>
+        <a id="QA" href="/qa" class="item<% if (environment==="qa") { %> active<% } %>">QA</a>
+        <a id="Prod" href="/" class="item<% if (environment==="prod") { %> active<% } %>">Prod</a>
+      </div>
       <div id="status-information">
         <div id="refresh-container">
             <h5>Last refresh: <time id="refresh-time"></time></h5>
