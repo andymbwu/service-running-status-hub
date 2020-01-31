@@ -198,9 +198,8 @@ window.statusHub = window.statusHub || {};
                         if (checks[i].health === 0) {
                             for (let j = i; j >= 0; j--) {
                                 if (checks[j].health !== 0) {
-                                    let time = checks[i].time;
-                                    checks[i] = checks[j];
-                                    checks[i].time = time;
+                                    checks[i].health = checks[j].health;
+                                    checks[i].messages = checks[j].messages;
                                     checks[i].copied = true;
                                     break;
                                 }
