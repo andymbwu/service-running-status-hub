@@ -40,6 +40,7 @@ window.statusHub = window.statusHub || {};
     self.refresh = function() {
         self.getData(data => {
             self.lastRefresh = new Date();
+            let serialization = self.serialize();
             self.$statusContainer.find('.status-category').remove();
             let windowStart = Date.now() - (1000 * 60 * 60 * 100);
             let step = 1000 * 60 * 60;
@@ -67,11 +68,13 @@ window.statusHub = window.statusHub || {};
                         jQuery(this).addClass('hidden').parent().find('.collapse-category').removeClass('hidden');
                         $category.find('.child-statuses').removeClass('hidden');
                         $category.find('.category-chart').addClass('hidden');
+                        $category.attr('data-expanded', '1');
                     });
                     $category.find('.collapse-category').click(function(e) {
                         jQuery(this).addClass('hidden').parent().find('.expand-category').removeClass('hidden');
                         $category.find('.child-statuses').addClass('hidden');
                         $category.find('.category-chart').removeClass('hidden');
+                        $category.attr('data-expanded', '0');
                     });
                 }
 
@@ -226,6 +229,7 @@ window.statusHub = window.statusHub || {};
                 }
                 self.setIconFromHealth(categoryStatus[99], $category.find('.category-icon'))
             }
+            self.applySerialization(serialization);
         });
     };
 
@@ -275,6 +279,36 @@ window.statusHub = window.statusHub || {};
                 break;
         }
     };
+
+    self.serialize = function() {
+        let serialization = [];
+        jQuery('.status-category').each(function(i, e) {
+            let cat = {
+                category: jQuery(e).attr('data-category'),
+                services: [],
+                expanded: jQuery(e).attr('data-expanded') === '1'
+            };
+            jQuery(e).find('.service-health').each(function(i, e) {
+                cat.services.unshift(jQuery(e).attr('data-service'))
+            });
+            serialization.unshift(cat);
+        });
+
+        return serialization;
+    };
+
+    self.applySerialization = function(serialization) {
+        for (let cat of serialization) {
+            let $cat = jQuery(`.status-category[data-category="${cat.category}"]`);
+            if ($cat[0]) {
+                $cat.parent().prepend($cat);
+
+                if (cat.expanded) {
+                    $cat.find('.expand-category').click();
+                }
+            }
+        }
+    }
 }).apply(window.statusHub);
 
 jQuery(document).ready(function() {
