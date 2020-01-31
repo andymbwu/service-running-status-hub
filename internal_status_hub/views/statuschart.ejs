@@ -6,6 +6,7 @@
       <h3 class="header high ten wide column">
         <i class="question circle icon category-icon" icon-color="gray"></i>
         <%= title %>
+        <i class="category-age" style="color: gray;"></i>
       </h3>
       <div
         class="expand-category two wide column right floated right aligned"
@@ -37,6 +38,7 @@
         <div class="ui grid">
             <h3 class="header ten wide column">
                 <%= service.rule['display-name'] %>
+                <i class="service-age" style="color: gray;">as of <%= new Date(maxTime).toLocaleString() %></i>
             </h3>
             <i
                 class="question circle icon two wide column right floated right aligned service-icon"
