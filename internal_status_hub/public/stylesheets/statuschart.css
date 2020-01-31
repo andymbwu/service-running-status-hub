@@ -13,8 +13,13 @@
   background-color: #919191;
 }
 
+.pad-y {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+
 .pad-top {
-  padding-top: 1.5em;
+  padding-top: 1em;
 }
 
 .inner {
@@ -24,11 +29,6 @@
 .inline {
   display: flex;
   justify-content: start;
-}
-
-.status {
-  margin-top: 1.5em;
-  margin-bottom: 1.5em;
 }
 
 .status-chart {
